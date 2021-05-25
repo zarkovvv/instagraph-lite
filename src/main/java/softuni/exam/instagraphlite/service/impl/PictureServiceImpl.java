@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import softuni.exam.instagraphlite.models.DTOs.importDTOs.PictureImportDTO;
+import softuni.exam.instagraphlite.models.DTOs.importDTOs.PictureImportJsonDTO;
 import softuni.exam.instagraphlite.models.entities.Picture;
 import softuni.exam.instagraphlite.repository.PictureRepository;
 import softuni.exam.instagraphlite.service.PictureService;
@@ -46,13 +46,13 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public String importPictures() throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
-        PictureImportDTO[] pictureImportDTOS = this.gson.fromJson(this.readFromFileContent(), PictureImportDTO[].class);
+        PictureImportJsonDTO[] pictureImportJsonDTOS = this.gson.fromJson(this.readFromFileContent(), PictureImportJsonDTO[].class);
 
-        for (PictureImportDTO pictureImportDTO : pictureImportDTOS) {
-            Optional<Picture> byPath = this.pictureRepository.findByPath(pictureImportDTO.getPath());
-            if (this.validationUtil.isValid(pictureImportDTO) && byPath.isEmpty()){
-                this.pictureRepository.saveAndFlush(this.modelMapper.map(pictureImportDTO, Picture.class));
-                stringBuilder.append(String.format("Successfully imported picture with size %.2f", pictureImportDTO.getSize())).append(System.lineSeparator());
+        for (PictureImportJsonDTO pictureImportJsonDTO : pictureImportJsonDTOS) {
+            Optional<Picture> byPath = this.pictureRepository.findByPath(pictureImportJsonDTO.getPath());
+            if (this.validationUtil.isValid(pictureImportJsonDTO) && byPath.isEmpty()){
+                this.pictureRepository.saveAndFlush(this.modelMapper.map(pictureImportJsonDTO, Picture.class));
+                stringBuilder.append(String.format("Successfully imported picture with size %.2f", pictureImportJsonDTO.getSize())).append(System.lineSeparator());
             } else {
                 stringBuilder.append("Invalid Picture").append(System.lineSeparator());
             }

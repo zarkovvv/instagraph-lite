@@ -6,14 +6,14 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
-public class PictureImportDTO {
+public class PictureImportJsonDTO {
 
     @Expose
     private String path;
     @Expose
     private double size;
 
-    public PictureImportDTO() {
+    public PictureImportJsonDTO() {
     }
 
     @NotNull
